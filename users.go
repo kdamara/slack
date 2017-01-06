@@ -95,6 +95,7 @@ type userResponseFull struct {
 	User         `json:"user,omitempty"` // GetUserInfo
 	UserPresence                         // GetUserPresence
 	SlackResponse
+	Offset string `json:"offset"`
 }
 
 func userRequest(path string, values url.Values, debug bool) (*userResponseFull, error) {
@@ -136,16 +137,16 @@ func (api *Client) GetUserInfo(user string) (*User, error) {
 }
 
 // GetUsers returns the list of users (with their detailed information)
-func (api *Client) GetUsers() ([]User, error) {
+func (api *Client) GetUsers() ([]User, string, error) {
 	values := url.Values{
-		"token":    {api.config.token},
-		"limit":    {"1000"},
+		"token": {api.config.token},
+		"limit": {"1000"},
 	}
 	response, err := userRequest("users.list", values, api.debug)
 	if err != nil {
-		return nil, err
+		return nil, ``, err
 	}
-	return response.Members, nil
+	return response.Members, response.Offset, nil
 }
 
 // SetUserAsActive marks the currently authenticated user as active

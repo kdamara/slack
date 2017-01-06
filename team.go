@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	DEFAULT_LOGINS_COUNT   = 100
-	DEFAULT_LOGINS_PAGE    = 1
+	DEFAULT_LOGINS_COUNT = 100
+	DEFAULT_LOGINS_PAGE  = 1
 )
 
 type TeamResponse struct {
@@ -26,10 +26,9 @@ type TeamInfo struct {
 
 type LoginResponse struct {
 	Logins []Login `json:"logins"`
-	Paging         `json:"paging"`
+	Paging `json:"paging"`
 	SlackResponse
 }
-
 
 type Login struct {
 	UserID    string `json:"user_id"`
@@ -56,8 +55,8 @@ type BillingActive struct {
 
 // AccessLogParameters contains all the parameters necessary (including the optional ones) for a GetAccessLogs() request
 type AccessLogParameters struct {
-	Count         int
-	Page          int
+	Count int
+	Page  int
 }
 
 // NewAccessLogParameters provides an instance of AccessLogParameters with all the sane default values set
@@ -67,7 +66,6 @@ func NewAccessLogParameters() AccessLogParameters {
 		Page:  DEFAULT_LOGINS_PAGE,
 	}
 }
-
 
 func teamRequest(path string, values url.Values, debug bool) (*TeamResponse, error) {
 	response := &TeamResponse{}
@@ -108,7 +106,6 @@ func accessLogsRequest(path string, values url.Values, debug bool) (*LoginRespon
 	}
 	return response, nil
 }
-
 
 // GetTeamInfo gets the Team Information of the user
 func (api *Client) GetTeamInfo() (*TeamInfo, error) {
