@@ -137,10 +137,11 @@ func (api *Client) GetUserInfo(user string) (*User, error) {
 }
 
 // GetUsers returns the list of users (with their detailed information)
-func (api *Client) GetUsers() ([]User, string, error) {
+func (api *Client) GetUsers(offset string) ([]User, string, error) {
 	values := url.Values{
 		"token": {api.config.token},
 		"limit": {"1000"},
+    "offset": {offset},
 	}
 	response, err := userRequest("users.list", values, api.debug)
 	if err != nil {
