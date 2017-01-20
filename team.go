@@ -138,7 +138,8 @@ func (api *Client) GetAccessLogs(params AccessLogParameters) ([]Login, *Paging, 
 	return response.Logins, &response.Paging, nil
 }
 
-func (api *Client) GetBillableInfo(user string) (map[string]BillingActive, error) {
+// GetBillableInfo returns the billing_active status of a user by ID.
+func (api *Client) GetBillableInfoForUser(user string) (map[string]BillingActive, error) {
 	values := url.Values{
 		"token": {api.config.token},
 		"user": {user},
@@ -154,4 +155,17 @@ func (api *Client) GetBillableInfoForTeam() (map[string]BillingActive, error) {
 	}
 
 	return billableInfoRequest("team.billableInfo", values, api.debug)
+}
+
+func (api *Client) GetBillableInfoForTeam() (map[string]BillingActive, error) {
+	values := url.Values{
+		"token": {api.config.token},
+	}
+
+	response, err := billableInfoRequest("team.billableInfo", values, api.debug)
+	if err != nil {
+		return nil, err
+	}
+	return response.BillableInfo, nil
+
 }
